@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-[url('/public/capture.PNG')] bg-no-repeat  min-h-[600px] w-full flex flex-col-reverse md:flex-row justify-between items-center px-6 md:px-10 py-10"
+    class="bg-[url('/public/bg-header.png')] bg-no-repeat  min-h-[600px] w-full flex flex-col-reverse md:flex-row justify-between items-center px-6 md:px-10 py-10"
   >
     <!-- intro -->
     <div class="p-4 text-white w-full md:max-w-[50%] mb-8 md:ml-12">
