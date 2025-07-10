@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-[url('/public/bg-header.png')] bg-no-repeat  min-h-[600px] w-full flex flex-col-reverse md:flex-row justify-between items-center px-6 md:px-10 py-10"
+    class="bg-[url('/bg-header.png')] bg-no-repeat  min-h-[600px] w-full flex flex-col-reverse md:flex-row justify-between items-center px-6 md:px-10 py-10"
   >
     <!-- intro -->
     <div class="p-4 text-white w-full md:max-w-[50%] mb-8 md:ml-12">
@@ -40,7 +40,7 @@
     <!-- profile image -->
     <div class="w-[280px] md:w-[400px] h-auto bg-no-repeat bg-contain bg-center mb-6 md:mb-0">
       <img
-        src="/public/capture.PNG"
+        src="/capture.PNG"
         class="rounded-3xl rounded-b-full animate-fade-in w-full"
         alt="Uzair Khan"
       />
