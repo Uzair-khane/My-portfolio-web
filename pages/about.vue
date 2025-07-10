@@ -11,7 +11,7 @@ const showMore = ref(false);
     <!-- Profile Image (Top on mobile, right on desktop) -->
     <div class="w-full md:w-[400px] animate-slide-right order-1 md:order-2">
       <img
-        src="/images/Capture.PNG"
+        src="/Capture.PNG"
         class="rounded-3xl rounded-b-full w-full shadow-xl"
         alt="Uzair Khan"
       />
