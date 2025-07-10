@@ -10,8 +10,9 @@ const showMore = ref(false);
   >
     <!-- Profile Image (Top on mobile, right on desktop) -->
     <div class="w-full md:w-[400px] animate-slide-right order-1 md:order-2">
+      <!-- ✅ FIXED FILE NAME: from /capture.PNG to /capture.png -->
       <img
-        src="/capture.PNG"
+        src="/capture.png"
         class="rounded-3xl rounded-b-full w-full shadow-xl"
         alt="Uzair Khan"
       />
