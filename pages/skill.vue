@@ -89,7 +89,7 @@
         <li class="border-l-4 border-sky-500 pl-4">
           <span class="font-bold text-sky-700">Frontend Developer Intern</span>
            <br />
-          NGEN & Coda Alpha & Interneee.PK & code &Saylani Mass IT Training Inernship (2024) Completed a frontend internship under NGEN’s
+          NGEN & Code Alpha & Interneee.PK & code &Saylani Mass IT Training Inernship (2024) Completed a frontend internship under NGEN’s
           Next Generation Circle program. Worked on real-time projects focused
           on UI/UX using Vue.js, Nuxt 3, and Tailwind CSS. Collaborated with
           senior developers at Coda Alpha to build modern web interfaces.

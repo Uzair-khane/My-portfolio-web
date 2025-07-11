@@ -8,24 +8,22 @@ const isMobileMenuOpen = ref(false);
   <div>
     <!-- Navbar -->
     <nav
-      class="flex items-center justify-between opa px-6 py-4 text-white
-             bg-none sm:bg-white sm:text-blue-950 bg-fixed  z-50 relative"
+      class="flex items-center justify-between px-6 py-4 text-white
+             bg-none sm:bg-white sm:text-blue-950 bg-fixed z-50 relative"
     >
       <!-- Logo -->
       <h1 class="font-bold text-3xl font-sans text-amber-400">Portfolio</h1>
 
-      <!-- Hamburger for Mobile (shown on md and below) -->
+      <!-- Toggle Button (Font Awesome Icons) -->
       <button
-        class="md:hidden text-blue-950 text-3xl"
+        class="md:hidden text-blue-950 text-3xl focus:outline-none"
         @click="isMobileMenuOpen = !isMobileMenuOpen"
       >
-        ☰
+        <i :class="isMobileMenuOpen ? 'fas fa-xmark' : 'fas fa-bars'"></i>
       </button>
 
       <!-- Desktop Menu -->
-      <ul
-        class="hidden md:flex gap-10 font-semibold cursor-pointer text-blue-950"
-      >
+      <ul class="hidden md:flex gap-10 font-semibold cursor-pointer text-blue-950">
         <li class="hover:text-orange-400 transition duration-300">
           <nuxt-link to="/">Home</nuxt-link>
         </li>
@@ -35,64 +33,62 @@ const isMobileMenuOpen = ref(false);
         <li class="hover:text-orange-400 transition duration-300">
           <nuxt-link to="/skill">Skill</nuxt-link>
         </li>
-        <li class="hover:text-orange-400 relative group transition duration-300">
+        <li class="hover:text-orange-400 transition duration-300">
           <nuxt-link to="/myproject">Project</nuxt-link>
-
-         
         </li>
         <li class="hover:text-orange-400 transition duration-300">
           <nuxt-link to="/contact">Contact</nuxt-link>
         </li>
       </ul>
 
-      <!-- Contact Button (stylish) -->
+      <!-- Contact Button -->
       <div
         class="hidden md:block px-4 hover:cursor-pointer h-[55px] bg-gradient-to-r from-yellow-500 to-orange-500 
-               rounded-full text-center  items-center justify-center text-white 
+               rounded-full text-center items-center justify-center text-white 
                font-semibold pt-4 shadow-lg hover:scale-105 transition duration-300 ease-in-out"
       >
         <a href="https://wa.me/923149535884">📞 0314-9535884</a>
       </div>
     </nav>
 
-    <!-- Mobile Menu with Transition -->
+    <!-- Mobile Menu -->
     <transition name="fade">
       <div
         v-show="isMobileMenuOpen"
         class="md:hidden bg-slate-700 w-full h-screen pt-10 px-6 py-4 
                transition-all duration-500 ease-in-out transform 
-               flex flex-col gap-[20px] text-white font-semibold "
+               flex flex-col gap-6 text-white font-semibold"
       >
         <nuxt-link
-          class="text-center hover:text-amber-500 transition duration-300 ease-in-out"
+          class="text-center hover:text-amber-500 transition duration-300"
           to="/"
           @click="isMobileMenuOpen = false"
         >
           Home
         </nuxt-link>
         <nuxt-link
-          class="text-center hover:text-amber-500 transition duration-300 ease-in-out"
+          class="text-center hover:text-amber-500 transition duration-300"
           to="/about"
           @click="isMobileMenuOpen = false"
         >
           About
         </nuxt-link>
         <nuxt-link
-          class="text-center hover:text-amber-500 transition duration-300 ease-in-out"
+          class="text-center hover:text-amber-500 transition duration-300"
           to="/skill"
           @click="isMobileMenuOpen = false"
         >
           Skill
         </nuxt-link>
         <nuxt-link
-          class="text-center hover:text-amber-500 transition duration-300 ease-in-out"
+          class="text-center hover:text-amber-500 transition duration-300"
           to="/myproject"
           @click="isMobileMenuOpen = false"
         >
           Project
         </nuxt-link>
         <nuxt-link
-          class="text-center hover:text-amber-500 transition duration-300 ease-in-out"
+          class="text-center hover:text-amber-500 transition duration-300"
           to="/contact"
           @click="isMobileMenuOpen = false"
         >

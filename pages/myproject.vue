@@ -122,7 +122,7 @@ const projects = [
         {
     title: "Website Repaire and Maintainance Services UI",
     description:
-      "Developed a  Website for Health and care Repaire and Maintainance Services only for laptop screen  ",
+      "Developed a  Website for  Repaire and Maintainance Services only for laptop screen  ",
     image: "/repair.PNG",
     link: "https://uzair-khane.github.io/repaire-and-maintance-services/",
   },

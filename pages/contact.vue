@@ -168,8 +168,5 @@ const sendToWhatsApp = () => {
         class="rounded-lg shadow-lg"
       ></iframe>
     </div>
-
-    <!-- Footer Component -->
-    <Footer />
   </section>
 </template>
