@@ -51,7 +51,7 @@
     <!-- Row 1 - Col 2: Profile Image -->
     <div class="w-full animate-slide-right">
       <img
-      src="/capture.PNG"
+     src="/profile.png"
         class="rounded-3xl rounded-b-full w-full shadow-xl"
         alt="Uzair Khan"
       />

@@ -40,7 +40,7 @@
     <!-- profile image -->
     <div class="w-[280px] md:w-[400px] h-auto bg-no-repeat bg-contain bg-center mb-6 md:mb-0">
       <img
-        src="/capture.PNG"
+        src="/profile.png"
         class="rounded-3xl rounded-b-full animate-fade-in w-full"
         alt="Uzair Khan"
       />
