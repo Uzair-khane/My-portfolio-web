@@ -126,6 +126,14 @@ const projects = [
     image: "/repair.PNG",
     link: "https://uzair-khane.github.io/repaire-and-maintance-services/",
   },
+ {
+  title: "HRDN Official Website",
+  description:
+    "Collaborated with a team to design and develop the official website for HRDN.",
+  image: "/HRDN.PNG",
+  link: "https://hrdn.net/",
+}
+
   // Add more projects here
 ];
 </script>
