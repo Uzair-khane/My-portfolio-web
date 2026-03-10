@@ -14,6 +14,16 @@ const closeMobile = () => {
   isMobileMenuOpen.value = false;
 };
 
+const toggleMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
+watch(isMobileMenuOpen, (val) => {
+  if (typeof document !== "undefined") {
+    document.body.style.overflow = val ? "hidden" : "";
+  }
+});
+
 const setupScrollSpy = () => {
   observer?.disconnect();
   if (route.path !== "/") return;
@@ -57,182 +67,275 @@ watch(
 
 onBeforeUnmount(() => {
   observer?.disconnect();
+  if (typeof document !== "undefined") {
+    document.body.style.overflow = "";
+  }
 });
 </script>
 
 <template>
   <div>
-    <!-- Navbar -->
+    <!-- ── Navbar ── -->
     <nav
-      class="sticky top-0 z-50 flex items-center justify-between px-6 py-4 border-b border-white/10"
-      style="background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px);"
+      class="sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10"
+      style="background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(12px);"
     >
       <!-- Logo -->
       <h1
-        class="font-extrabold text-3xl md:text-4xl font-sans text-transparent bg-clip-text bg-gradient-to-r from-[#00d4ff] to-[#7c3aed]"
+        class="font-extrabold text-2xl sm:text-3xl md:text-4xl font-sans text-transparent bg-clip-text bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] select-none"
       >
         Uzair Khan
       </h1>
 
-      <!-- Toggle Button (Font Awesome Icons) -->
-      <button
-        class="md:hidden text-zinc-100 text-3xl focus:outline-none transition duration-300"
-        @click="isMobileMenuOpen = !isMobileMenuOpen"
-      >
-        <i
-          :class="isMobileMenuOpen ? 'fas fa-xmark' : 'fas fa-bars'"
-          :style="{ transform: isMobileMenuOpen ? 'rotate(90deg)' : 'rotate(0deg)' }"
-        ></i>
-      </button>
-
       <!-- Desktop Menu -->
-      <ul class="hidden md:flex gap-10 font-semibold cursor-pointer text-zinc-200">
-        <li>
+      <ul class="hidden md:flex gap-8 lg:gap-10 font-semibold cursor-pointer text-zinc-200">
+        <li v-for="item in [
+          { id: 'home',     label: 'Home',    href: '/#home'     },
+          { id: 'about',    label: 'About',   href: '/#about'    },
+          { id: 'skills',   label: 'Skill',   href: '/#skills'   },
+          { id: 'projects', label: 'Project', href: '/#projects' },
+          { id: 'contact',  label: 'Contact', href: '/#contact'  },
+        ]" :key="item.id">
           <NuxtLink
             class="nav-link"
-            :class="activeId === 'home' ? 'nav-link-active' : ''"
-            to="/#home"
+            :class="activeId === item.id ? 'nav-link-active' : ''"
+            :to="item.href"
           >
-            Home
-          </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink
-            class="nav-link"
-            :class="activeId === 'about' ? 'nav-link-active' : ''"
-            to="/#about"
-          >
-            About
-          </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink
-            class="nav-link"
-            :class="activeId === 'skills' ? 'nav-link-active' : ''"
-            to="/#skills"
-          >
-            Skill
-          </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink
-            class="nav-link"
-            :class="activeId === 'projects' ? 'nav-link-active' : ''"
-            to="/#projects"
-          >
-            Project
-          </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink
-            class="nav-link"
-            :class="activeId === 'contact' ? 'nav-link-active' : ''"
-            to="/#contact"
-          >
-            Contact
+            {{ item.label }}
           </NuxtLink>
         </li>
       </ul>
 
-      <!-- Contact Button -->
-      <div
-        class="hidden md:flex items-center justify-center"
+      <!-- Desktop Contact Button -->
+      <a
+        class="contact-btn hidden md:inline-flex items-center gap-2"
+        href="https://wa.me/923149535884"
+        target="_blank"
       >
-        <a class="contact-btn" href="https://wa.me/923149535884">📞 Contact Us</a>
-      </div>
+        📞 Contact Us
+      </a>
+
+      <!-- ── Hamburger Button — NO border, NO bg, WHITE bars ── -->
+      <button class="hamburger-btn md:hidden" @click="toggleMenu" aria-label="Toggle menu">
+        <span class="hamburger-box">
+          <span class="hamburger-bar" :class="isMobileMenuOpen ? 'bar-top-open' : 'bar-top'"></span>
+          <span class="hamburger-bar" :class="isMobileMenuOpen ? 'bar-mid-open' : 'bar-mid'"></span>
+          <span class="hamburger-bar" :class="isMobileMenuOpen ? 'bar-bot-open' : 'bar-bot'"></span>
+        </span>
+      </button>
     </nav>
 
-    <!-- Mobile Menu -->
-    <transition name="slide">
+    <!-- ── Mobile Menu Overlay ── -->
+    <Transition name="menu-fade">
       <div
-        v-show="isMobileMenuOpen"
-        class="md:hidden fixed inset-0 bg-black/70 backdrop-blur-sm pt-20 px-6 py-6 flex flex-col gap-6 text-white font-semibold"
-        @click.self="closeMobile"
+        v-if="isMobileMenuOpen"
+        class="md:hidden fixed inset-0 z-40 flex flex-col"
+        style="background: rgba(2, 4, 8, 0.97); backdrop-filter: blur(16px);"
       >
-        <NuxtLink class="text-center nav-link-mobile" to="/#home" @click="closeMobile">
-          Home
-        </NuxtLink>
-        <NuxtLink class="text-center nav-link-mobile" to="/#about" @click="closeMobile">
-          About
-        </NuxtLink>
-        <NuxtLink class="text-center nav-link-mobile" to="/#skills" @click="closeMobile">
-          Skill
-        </NuxtLink>
-        <NuxtLink class="text-center nav-link-mobile" to="/#projects" @click="closeMobile">
-          Project
-        </NuxtLink>
-        <NuxtLink class="text-center nav-link-mobile" to="/#contact" @click="closeMobile">
-          Contact
-        </NuxtLink>
+        <!-- Spacer -->
+        <div class="h-[56px] sm:h-[64px] flex-shrink-0"></div>
+
+        <!-- Accent line -->
+        <div class="w-full h-[2px] bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] flex-shrink-0"></div>
+
+        <!-- Nav Links -->
+        <nav class="flex flex-col items-center justify-center flex-1 gap-2 px-6 py-8">
+          <NuxtLink
+            v-for="(item, i) in [
+              { id: 'home',     label: 'Home',     href: '/#home'     },
+              { id: 'about',    label: 'About',    href: '/#about'    },
+              { id: 'skills',   label: 'Skills',   href: '/#skills'   },
+              { id: 'projects', label: 'Projects', href: '/#projects' },
+              { id: 'contact',  label: 'Contact',  href: '/#contact'  },
+            ]"
+            :key="item.id"
+            :to="item.href"
+            class="mobile-nav-link"
+            :class="activeId === item.id ? 'mobile-nav-active' : ''"
+            :style="{ animationDelay: `${i * 0.07}s` }"
+            @click="closeMobile"
+          >
+            {{ item.label }}
+          </NuxtLink>
+
+          <a
+            href="https://wa.me/923149535884"
+            target="_blank"
+            class="contact-btn-mobile mt-4"
+            @click="closeMobile"
+          >
+            📞 Contact Us
+          </a>
+        </nav>
+
+        <p class="text-center text-zinc-600 text-xs pb-6 flex-shrink-0">
+          © 2026 Uzair Khan
+        </p>
       </div>
-    </transition>
+    </Transition>
   </div>
 </template>
 
 <style scoped>
-.contact-btn {
-  border: 2px solid #00d4ff;
-  color: #00d4ff;
-  background: transparent;
-  border-radius: 8px;
-  padding: 8px 20px;
-  font-weight: 700;
-  transition: all 0.3s ease;
-}
-.contact-btn:hover {
-  background: #00d4ff;
-  color: #050510;
-  transform: translateY(-1px);
-}
 
+/* ── Desktop nav link ── */
 .nav-link {
   position: relative;
   padding: 0.35rem 0.15rem;
-  transition: color 0.35s ease, transform 0.35s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
+  color: rgba(228, 228, 231, 0.85);
 }
-.nav-link:hover {
-  color: white;
-  transform: translateY(-1px);
-}
+.nav-link:hover { color: white; transform: translateY(-1px); }
 .nav-link::after {
   content: "";
   position: absolute;
-  left: 0;
-  bottom: -6px;
-  height: 2px;
-  width: 0%;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  left: 0; bottom: -6px;
+  height: 2px; width: 0%;
+  background: linear-gradient(90deg, #00d4ff, #7c3aed);
+  border-radius: 2px;
   transition: width 0.35s ease;
 }
-.nav-link:hover::after {
-  width: 100%;
+.nav-link:hover::after,
+.nav-link-active::after { width: 100%; }
+.nav-link-active { color: white; }
+
+/* ── Desktop contact button ── */
+.contact-btn {
+  border: 1.5px solid rgba(255,255,255,0.4);
+  color: #ffffff;
+  background: transparent;
+  border-radius: 6px;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
-.nav-link-active {
-  color: white;
-}
-.nav-link-active::after {
-  width: 100%;
+.contact-btn:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: #ffffff;
+  transform: translateY(-1px);
 }
 
-.nav-link-mobile {
-  padding: 1rem 1rem;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.45s ease;
+/* ══════════════════════════════
+   HAMBURGER BUTTON
+   — zero border
+   — zero background
+   — pure white bars
+══════════════════════════════ */
+.hamburger-btn {
+  all: unset;           /* reset ALL browser button defaults */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  position: relative;
+  z-index: 60;
+  /* Make absolutely sure no border/bg leaks in */
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent;
 }
-.nav-link-mobile:hover {
+.hamburger-btn:focus,
+.hamburger-btn:focus-visible,
+.hamburger-btn:active {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.hamburger-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 24px;
+  pointer-events: none;
+}
+
+.hamburger-bar {
+  display: block;
+  height: 2px;
+  background: #ffffff;      /* ← PURE WHITE */
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+  transform-origin: center;
+}
+
+/* Closed */
+.bar-top { width: 100%; transform: none; }
+.bar-mid { width: 100%; transform: none; opacity: 1; }
+.bar-bot { width: 65%;  transform: none; }
+
+/* Open → X */
+.bar-top-open { width: 100%; transform: translateY(7px) rotate(45deg); }
+.bar-mid-open { width: 100%; opacity: 0; transform: scaleX(0); }
+.bar-bot-open { width: 100%; transform: translateY(-7px) rotate(-45deg); }
+
+/* ── Mobile nav links ── */
+.mobile-nav-link {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+  padding: 14px 24px;
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(228, 228, 231, 0.85);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
+  transition: color 0.3s ease, background 0.3s ease,
+              border-color 0.3s ease, transform 0.3s ease;
+  animation: linkSlideIn 0.4s ease both;
+}
+.mobile-nav-link:hover {
+  color: #00d4ff;
+  background: rgba(0,212,255,0.06);
+  border-color: rgba(0,212,255,0.2);
   transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.06);
+}
+.mobile-nav-active {
+  color: #00d4ff !important;
+  border-color: rgba(0,212,255,0.3) !important;
+  background: rgba(0,212,255,0.07) !important;
 }
 
-.slide-enter-active,
-.slide-leave-active {
-  transition: opacity 0.45s ease, transform 0.45s ease;
+/* ── Mobile contact button ── */
+.contact-btn-mobile {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+  padding: 13px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  border-radius: 8px;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  background: transparent;
+  transition: all 0.3s ease;
+  animation: linkSlideIn 0.4s ease 0.35s both;
 }
-.slide-enter-from,
-.slide-leave-to {
-  opacity: 0;
-  transform: translateX(12px);
+.contact-btn-mobile:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.7);
+  transform: translateY(-2px);
+}
+
+/* ── Transitions ── */
+.menu-fade-enter-active,
+.menu-fade-leave-active { transition: opacity 0.3s ease; }
+.menu-fade-enter-from,
+.menu-fade-leave-to { opacity: 0; }
+
+@keyframes linkSlideIn {
+  0%   { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 </style>

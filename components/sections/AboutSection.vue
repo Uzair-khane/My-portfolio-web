@@ -85,7 +85,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section id="about" class="section-wrap">
+  <section id="about" class="section-wrap overflow-hidden">
     <div class="section-inner py-16 md:py-24">
       <div class="flex flex-col md:flex-row gap-12 md:gap-16 items-start px-0">
 
