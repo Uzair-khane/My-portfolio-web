@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="app-container">
     <Header />
-    <NuxtPage />
+    <NuxtPage :transition="{ name: 'page', mode: 'out-in' }" />
     <Footer />
   </div>
 </template>

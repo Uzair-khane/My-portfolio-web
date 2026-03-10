@@ -1,1 +1,236 @@
-@import "tailwindcss"
+@import "tailwindcss";
+
+/* Global theme + motion (dark, modern) */
+@layer base {
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface-2: #151515;
+    --text: #e5e7eb;
+    --muted: #a1a1aa;
+    --border: rgba(255, 255, 255, 0.08);
+    --accent: #00d4ff;
+    --accent-2: #7c3aed;
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+    --ring: 0 0 0 3px rgba(0, 212, 255, 0.25);
+  }
+
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: radial-gradient(1200px 700px at 15% 10%, rgba(124, 58, 237, 0.14), transparent 55%),
+      radial-gradient(900px 600px at 85% 25%, rgba(0, 212, 255, 0.12), transparent 60%),
+      linear-gradient(180deg, var(--bg), #070707 65%, #050505);
+    color: var(--text);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans",
+      "Apple Color Emoji", "Segoe UI Emoji";
+    letter-spacing: 0.2px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: rgba(0, 212, 255, 0.22);
+  }
+
+  a,
+  button,
+  input,
+  textarea {
+    transition-property: color, background-color, border-color, transform, box-shadow, opacity, filter;
+    transition-duration: 0.35s;
+    transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--ring);
+    border-radius: 10px;
+  }
+
+  /* Global button standard (match "Download CV" style) */
+  button,
+  [role="button"] {
+    background: transparent !important;
+    background-image: none !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
+    color: #ffffff !important;
+    border-radius: 6px !important;
+    padding: 10px 24px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer;
+    transition: all 0.3s ease !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: none !important;
+    filter: none !important;
+  }
+
+  button:hover,
+  [role="button"]:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: #ffffff !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: none !important;
+  }
+
+  /* Button-like links */
+  a.btn-primary,
+  a.btn-ghost,
+  a.contact-btn,
+  a.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent !important;
+    background-image: none !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
+    color: #ffffff !important;
+    border-radius: 6px !important;
+    padding: 10px 24px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer;
+    transition: all 0.3s ease !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: none !important;
+    filter: none !important;
+    text-decoration: none;
+  }
+
+  a.btn-primary:hover,
+  a.btn-ghost:hover,
+  a.contact-btn:hover,
+  a.btn:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: #ffffff !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: none !important;
+  }
+}
+
+@layer components {
+  .app-container {
+    width: 100%;
+  }
+
+  .section-wrap {
+    position: relative;
+  }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-inner {
+      padding-left: 6rem;
+      padding-right: 6rem;
+    }
+  }
+
+  .glass {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+  }
+
+  /* Keep class names, but styling is standardized in @layer base above */
+  .btn-primary,
+  .btn-ghost {
+    background: transparent;
+    background-image: none;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+    border-radius: 6px;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    box-shadow: none;
+    filter: none;
+  }
+
+  /* Page transition */
+  .page-enter-active,
+  .page-leave-active {
+    transition: opacity 0.45s ease, transform 0.45s ease, filter 0.45s ease;
+  }
+  .page-enter-from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(8px);
+  }
+  .page-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+    filter: blur(8px);
+  }
+}
+
+@layer utilities {
+  /* Subtle dotted background overlay */
+  .bg-dots {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 18px 18px;
+    background-position: -2px -2px;
+    mask-image: radial-gradient(circle at 30% 20%, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0) 70%);
+  }
+
+  /* Typewriter (no text changes required) */
+  .typewriter {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid rgba(229, 231, 235, 0.55);
+    animation: tw 1.6s steps(18, end) 0.2s both, caret 0.9s step-end infinite;
+  }
+
+  @keyframes tw {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  @keyframes caret {
+    50% {
+      border-color: transparent;
+    }
+  }
+
+  /* Floating / subtle parallax feel */
+  .float-slow {
+    animation: floatSlow 6s ease-in-out infinite;
+  }
+
+  @keyframes floatSlow {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -10px, 0);
+    }
+  }
+
+  /* Card hover lift */
+  .lift {
+    transform: translate3d(0, 0, 0);
+  }
+  .lift:hover {
+    transform: translate3d(0, -8px, 0);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.6);
+  }
+}
