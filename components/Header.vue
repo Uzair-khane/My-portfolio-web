@@ -10,13 +10,8 @@ const sectionIds = ["home", "about", "skills", "projects", "contact"];
 
 let observer;
 
-const closeMobile = () => {
-  isMobileMenuOpen.value = false;
-};
-
-const toggleMenu = () => {
-  isMobileMenuOpen.value = !isMobileMenuOpen.value;
-};
+const closeMobile = () => { isMobileMenuOpen.value = false; };
+const toggleMenu  = () => { isMobileMenuOpen.value = !isMobileMenuOpen.value; };
 
 watch(isMobileMenuOpen, (val) => {
   if (typeof document !== "undefined") {
@@ -27,131 +22,99 @@ watch(isMobileMenuOpen, (val) => {
 const setupScrollSpy = () => {
   observer?.disconnect();
   if (route.path !== "/") return;
-
-  const els = sectionIds
-    .map((id) => document.getElementById(id))
-    .filter(Boolean);
-
+  const els = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
   if (!els.length) return;
-
   observer = new IntersectionObserver(
     (entries) => {
       const visible = entries
         .filter((e) => e.isIntersecting)
         .sort((a, b) => (b.intersectionRatio || 0) - (a.intersectionRatio || 0))[0];
-
       const id = visible?.target?.id;
       if (id) activeId.value = id;
     },
-    {
-      root: null,
-      threshold: [0.2, 0.35, 0.5],
-      rootMargin: "-20% 0px -65% 0px",
-    }
+    { root: null, threshold: [0.2, 0.35, 0.5], rootMargin: "-20% 0px -65% 0px" }
   );
-
   els.forEach((el) => observer.observe(el));
 };
 
-onMounted(() => {
-  setupScrollSpy();
-});
+onMounted(() => setupScrollSpy());
 
-watch(
-  () => route.fullPath,
-  () => {
-    closeMobile();
-    requestAnimationFrame(setupScrollSpy);
-  }
-);
+watch(() => route.fullPath, () => {
+  closeMobile();
+  requestAnimationFrame(setupScrollSpy);
+});
 
 onBeforeUnmount(() => {
   observer?.disconnect();
-  if (typeof document !== "undefined") {
-    document.body.style.overflow = "";
-  }
+  if (typeof document !== "undefined") document.body.style.overflow = "";
 });
+
+const navItems = [
+  { id: "home",     label: "Home",     href: "/#home"     },
+  { id: "about",    label: "About",    href: "/#about"    },
+  { id: "skills",   label: "Skills",   href: "/#skills"   },
+  { id: "projects", label: "Projects", href: "/#projects" },
+  { id: "contact",  label: "Contact",  href: "/#contact"  },
+];
 </script>
 
 <template>
   <div>
-    <!-- ── Navbar ── -->
-    <nav
-      class="sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10"
-      style="background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(12px);"
-    >
-      <!-- Logo -->
-      <h1
-        class="font-extrabold text-2xl sm:text-3xl md:text-4xl font-sans text-transparent bg-clip-text bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] select-none"
-      >
-        Uzair Khan
-      </h1>
 
-      <!-- Desktop Menu -->
-      <ul class="hidden md:flex gap-8 lg:gap-10 font-semibold cursor-pointer text-zinc-200">
-        <li v-for="item in [
-          { id: 'home',     label: 'Home',    href: '/#home'     },
-          { id: 'about',    label: 'About',   href: '/#about'    },
-          { id: 'skills',   label: 'Skill',   href: '/#skills'   },
-          { id: 'projects', label: 'Project', href: '/#projects' },
-          { id: 'contact',  label: 'Contact', href: '/#contact'  },
-        ]" :key="item.id">
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+      <!-- Logo -->
+      <NuxtLink to="/" class="logo">Uzair Khan</NuxtLink>
+
+      <!-- Desktop Menu (hidden on mobile) -->
+      <ul class="desktop-menu">
+        <li v-for="item in navItems" :key="item.id">
           <NuxtLink
-            class="nav-link"
-            :class="activeId === item.id ? 'nav-link-active' : ''"
             :to="item.href"
+            class="nav-link"
+            :class="{ 'nav-link-active': activeId === item.id }"
           >
             {{ item.label }}
           </NuxtLink>
         </li>
       </ul>
 
-      <!-- Desktop Contact Button -->
-      <a
-        class="contact-btn hidden md:inline-flex items-center gap-2"
-        href="https://wa.me/923149535884"
-        target="_blank"
-      >
-        📞 Contact Us
+      <!-- Desktop Contact Button (hidden on mobile) -->
+      <a class="contact-btn" href="https://wa.me/923149535884" target="_blank" rel="noopener">
+         Contact Us
       </a>
 
-      <!-- ── Hamburger Button — NO border, NO bg, WHITE bars ── -->
-      <button class="hamburger-btn md:hidden" @click="toggleMenu" aria-label="Toggle menu">
-        <span class="hamburger-box">
-          <span class="hamburger-bar" :class="isMobileMenuOpen ? 'bar-top-open' : 'bar-top'"></span>
-          <span class="hamburger-bar" :class="isMobileMenuOpen ? 'bar-mid-open' : 'bar-mid'"></span>
-          <span class="hamburger-bar" :class="isMobileMenuOpen ? 'bar-bot-open' : 'bar-bot'"></span>
-        </span>
-      </button>
+      <!-- Hamburger Button (ONLY on mobile, hidden on md+) -->
+     <button
+  class="hamburger border-none"
+  :class="{ open: isMobileMenuOpen }"
+  @click="toggleMenu"
+  :aria-expanded="isMobileMenuOpen"
+  aria-label="Toggle menu"
+>
+  <!-- Closed: hamburger icon -->
+  <i v-if="!isMobileMenuOpen" class="fas fa-bars text-white text-4xl"></i>
+
+  <!-- Open: cross icon -->
+  <i v-else class="fas fa-xmark text-white text-4xl"></i>
+</button>
+
     </nav>
 
-    <!-- ── Mobile Menu Overlay ── -->
+    <!-- MOBILE MENU OVERLAY -->
     <Transition name="menu-fade">
-      <div
-        v-if="isMobileMenuOpen"
-        class="md:hidden fixed inset-0 z-40 flex flex-col"
-        style="background: rgba(2, 4, 8, 0.97); backdrop-filter: blur(16px);"
-      >
-        <!-- Spacer -->
-        <div class="h-[56px] sm:h-[64px] flex-shrink-0"></div>
+      <div v-if="isMobileMenuOpen" class="mobile-overlay">
 
-        <!-- Accent line -->
-        <div class="w-full h-[2px] bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] flex-shrink-0"></div>
+        <div class="accent-line"></div>
 
-        <!-- Nav Links -->
-        <nav class="flex flex-col items-center justify-center flex-1 gap-2 px-6 py-8">
+        <nav class="mobile-nav">
           <NuxtLink
-            v-for="(item, i) in [
-              { id: 'home',     label: 'Home',     href: '/#home'     },
-              { id: 'about',    label: 'About',    href: '/#about'    },
-              { id: 'skills',   label: 'Skills',   href: '/#skills'   },
-              { id: 'projects', label: 'Projects', href: '/#projects' },
-              { id: 'contact',  label: 'Contact',  href: '/#contact'  },
-            ]"
+            v-for="(item, i) in navItems"
             :key="item.id"
             :to="item.href"
-            class="mobile-nav-link"
-            :class="activeId === item.id ? 'mobile-nav-active' : ''"
+            class="mobile-link"
+            :class="{ 'mobile-link-active': activeId === item.id }"
             :style="{ animationDelay: `${i * 0.07}s` }"
             @click="closeMobile"
           >
@@ -161,181 +124,246 @@ onBeforeUnmount(() => {
           <a
             href="https://wa.me/923149535884"
             target="_blank"
-            class="contact-btn-mobile mt-4"
+            rel="noopener"
+            class="mobile-contact"
+            :style="{ animationDelay: `${navItems.length * 0.07}s` }"
             @click="closeMobile"
           >
             📞 Contact Us
           </a>
         </nav>
 
-        <p class="text-center text-zinc-600 text-xs pb-6 flex-shrink-0">
-          © 2026 Uzair Khan
-        </p>
+        <p class="footer-text">© 2026 Uzair Khan</p>
       </div>
     </Transition>
+
   </div>
 </template>
 
 <style scoped>
 
-/* ── Desktop nav link ── */
+/* NAVBAR */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(14px);
+}
+
+/* LOGO */
+.logo {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  font-weight: 900;
+  background: linear-gradient(90deg, #00d4ff, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-decoration: none;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* DESKTOP MENU — hidden by default (mobile first) */
+.desktop-menu {
+  display: none;
+  list-style: none;
+  gap: 36px;
+  margin: 0;
+  padding: 0;
+}
+
 .nav-link {
   position: relative;
-  padding: 0.35rem 0.15rem;
-  transition: color 0.3s ease, transform 0.3s ease;
+  font-size: 15px;
+  font-weight: 600;
   color: rgba(228, 228, 231, 0.85);
+  text-decoration: none;
+  padding-bottom: 4px;
+  transition: color 0.3s ease;
 }
-.nav-link:hover { color: white; transform: translateY(-1px); }
 .nav-link::after {
   content: "";
   position: absolute;
-  left: 0; bottom: -6px;
-  height: 2px; width: 0%;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
   background: linear-gradient(90deg, #00d4ff, #7c3aed);
   border-radius: 2px;
   transition: width 0.35s ease;
 }
+.nav-link:hover { color: #fff; }
 .nav-link:hover::after,
 .nav-link-active::after { width: 100%; }
-.nav-link-active { color: white; }
+.nav-link-active { color: #fff; }
 
-/* ── Desktop contact button ── */
+/* DESKTOP CONTACT BUTTON — hidden by default (mobile first) */
 .contact-btn {
-  border: 1.5px solid rgba(255,255,255,0.4);
-  color: #ffffff;
-  background: transparent;
-  border-radius: 6px;
-  padding: 8px 20px;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
   font-size: 14px;
   font-weight: 500;
-  transition: all 0.3s ease;
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 6px;
+  background: transparent;
+  text-decoration: none;
   white-space: nowrap;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 .contact-btn:hover {
-  background: rgba(255,255,255,0.08);
-  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #fff;
   transform: translateY(-1px);
 }
 
-/* ══════════════════════════════
-   HAMBURGER BUTTON
-   — zero border
-   — zero background
-   — pure white bars
-══════════════════════════════ */
-.hamburger-btn {
-  all: unset;           /* reset ALL browser button defaults */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  position: relative;
-  z-index: 60;
-  /* Make absolutely sure no border/bg leaks in */
-  border: none !important;
-  outline: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  -webkit-tap-highlight-color: transparent;
-}
-.hamburger-btn:focus,
-.hamburger-btn:focus-visible,
-.hamburger-btn:active {
-  border: none !important;
-  outline: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-.hamburger-box {
+/* HAMBURGER — visible on mobile only */
+.hamburger {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 5px;
-  width: 24px;
-  pointer-events: none;
+  /* width: 36px;
+  height: 36px;
+  padding: 6px;
+  background: transparent; */
+  border: none;
+  outline: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
 }
+.hamburger:focus { outline: none; }
 
-.hamburger-bar {
+.hamburger span {
   display: block;
   height: 2px;
-  background: #ffffff;      /* ← PURE WHITE */
+  
+  /* background: #ffffff; */
   border-radius: 2px;
   transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
   transform-origin: center;
 }
+.hamburger span:nth-child(1) { width: 100%; }
+.hamburger span:nth-child(2) { width: 100%; }
+.hamburger span:nth-child(3) { width: 65%; }
 
-/* Closed */
-.bar-top { width: 100%; transform: none; }
-.bar-mid { width: 100%; transform: none; opacity: 1; }
-.bar-bot { width: 65%;  transform: none; }
+/* Open = X */
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg);  width: 100%; }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); width: 100%; }
 
-/* Open → X */
-.bar-top-open { width: 100%; transform: translateY(7px) rotate(45deg); }
-.bar-mid-open { width: 100%; opacity: 0; transform: scaleX(0); }
-.bar-bot-open { width: 100%; transform: translateY(-7px) rotate(-45deg); }
+/* MOBILE OVERLAY */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  background: rgba(2, 4, 8, 0.97);
+  backdrop-filter: blur(16px);
+  padding-top: 58px;
+}
 
-/* ── Mobile nav links ── */
-.mobile-nav-link {
+.accent-line {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #00d4ff, #7c3aed);
+  flex-shrink: 0;
+}
+
+.mobile-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px 24px;
+}
+
+.mobile-link {
   display: block;
   width: 100%;
-  max-width: 320px;
+  max-width: 340px;
   text-align: center;
   padding: 14px 24px;
   font-size: 18px;
   font-weight: 600;
   color: rgba(228, 228, 231, 0.85);
+  text-decoration: none;
   border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.03);
-  transition: color 0.3s ease, background 0.3s ease,
-              border-color 0.3s ease, transform 0.3s ease;
-  animation: linkSlideIn 0.4s ease both;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+  transition: color 0.3s, background 0.3s, border-color 0.3s, transform 0.3s;
+  animation: slideIn 0.4s ease both;
 }
-.mobile-nav-link:hover {
+.mobile-link:hover {
   color: #00d4ff;
-  background: rgba(0,212,255,0.06);
-  border-color: rgba(0,212,255,0.2);
+  background: rgba(0, 212, 255, 0.06);
+  border-color: rgba(0, 212, 255, 0.2);
   transform: translateY(-2px);
 }
-.mobile-nav-active {
+.mobile-link-active {
   color: #00d4ff !important;
-  border-color: rgba(0,212,255,0.3) !important;
-  background: rgba(0,212,255,0.07) !important;
+  border-color: rgba(0, 212, 255, 0.3) !important;
+  background: rgba(0, 212, 255, 0.07) !important;
 }
 
-/* ── Mobile contact button ── */
-.contact-btn-mobile {
+.mobile-contact {
   display: block;
   width: 100%;
-  max-width: 320px;
+  max-width: 340px;
   text-align: center;
   padding: 13px 24px;
   font-size: 15px;
   font-weight: 600;
-  color: #ffffff;
+  color: #fff;
+  text-decoration: none;
   border-radius: 8px;
-  border: 1.5px solid rgba(255,255,255,0.35);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
   background: transparent;
   transition: all 0.3s ease;
-  animation: linkSlideIn 0.4s ease 0.35s both;
+  animation: slideIn 0.4s ease both;
 }
-.contact-btn-mobile:hover {
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.7);
+.mobile-contact:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.7);
   transform: translateY(-2px);
 }
 
-/* ── Transitions ── */
+.footer-text {
+  text-align: center;
+  color: rgba(161, 161, 170, 0.5);
+  font-size: 12px;
+  padding-bottom: 24px;
+  flex-shrink: 0;
+}
+
+/* DESKTOP BREAKPOINT — 768px+ */
+@media (min-width: 768px) {
+  .desktop-menu { display: flex; }        /* show desktop menu */
+  .contact-btn  { display: inline-flex; } /* show contact button */
+  .hamburger    { display: none; }        /* hide hamburger */
+}
+
+/* TRANSITIONS */
 .menu-fade-enter-active,
 .menu-fade-leave-active { transition: opacity 0.3s ease; }
 .menu-fade-enter-from,
-.menu-fade-leave-to { opacity: 0; }
+.menu-fade-leave-to     { opacity: 0; }
 
-@keyframes linkSlideIn {
-  0%   { opacity: 0; transform: translateY(16px); }
-  100% { opacity: 1; transform: translateY(0); }
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 </style>
