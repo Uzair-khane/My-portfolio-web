@@ -4,8 +4,71 @@ const projects = [
     title: "Portfolio Website",
     description:
       "Designed and developed my personal portfolio using Nuxt 3 and Tailwind CSS.",
-    image: "/project1.PNG",
+    image: "/protfolio.png",
     link: "https://your-portfolio-link.com",
+  },
+    {
+    title: "HRDN Official Website",
+    description:
+      "Collaborated with a team to design and develop the official website for HRDN.",
+    image: "/HRDN.PNG",
+    link: "https://hrdn.net/",
+  },
+     {
+    title: "Zilber Footware Store",
+    description:
+      " design and develop the official website for Zilber Store",
+    image: "/zilber.png",
+    link: "zilber.store",
+  },
+   {
+    title: "Website For Health and care UI",
+    description: "Developed a  responsive Website for Health and care  ",
+    image: "/health.PNG",
+    link: "https://uzair-khane.github.io/Health-and-care-porject-5th-semester/",
+  },
+   {
+    title: "Deeplenz",
+    description: "Developed a  responsive Website in React  ",
+    image: "/deeplenz.png",
+    link: "deeplenz.ai",
+  },
+   {
+    title: "Nalyst",
+    description: "Developed a  responsive Website in nuxt 3  ",
+    image: "/nalyst.png",
+    link: "nalyst.io",
+  },
+     {
+    title: "Foreqast",
+    description: "Developed a  responsive Website in nuxt 3  ",
+    image: "/forqast.png",
+    link: "Foreqast.io",
+  },
+    {
+    title: "Hoor Official Website",
+    description:
+      "Collaborated with a team to design and develop the official website for Hoor.",
+    image: "/hoor.png",
+    link: "hoor.app",
+  },
+       {
+    title: "Qanoon HR",
+    description: "Developed a  responsive Website in nuxt 3  ",
+    image: "/hr.png",
+    link: "https://qanoon-hr.vercel.app/en",
+  },
+      {
+    title: "Diraa Dashboard",
+    description: "Developed a  responsive Website in nuxt 3  ",
+    image: "/dira.png",
+    link: "https://foreqast-lp-frontend.vercel.app/en",
+  },
+   {
+    title: "Website For Fitness Training UI",
+    description: "Developed a  responsive Website For Fitness Training  ",
+    image: "/fitness.PNG",
+    link: "https://uzair-khane.github.io/website-for-JYM/",
   },
   {
     title: "Password Generator",
@@ -21,13 +84,7 @@ const projects = [
     image: "/ToDOList.PNG",
     link: "https://uzair-khane.github.io/To-Do-List/",
   },
-  {
-    title: "Dashboard UI",
-    description:
-      "Developed a responsive admin dashboard with chart and card components.",
-    image: "/dashbord.PNG",
-    link: "#",
-  },
+
   {
     title: "Timer-in-javascript",
     description:
@@ -67,18 +124,8 @@ const projects = [
     image: "/car.PNG",
     link: "https://uzair-khane.github.io/carvilla-website/",
   },
-  {
-    title: "Website For Health and care UI",
-    description: "Developed a  responsive Website for Health and care  ",
-    image: "/health.PNG",
-    link: "https://uzair-khane.github.io/Health-and-care-porject-5th-semester/",
-  },
-  {
-    title: "Website For Fitness Training UI",
-    description: "Developed a  responsive Website For Fitness Training  ",
-    image: "/fitness.PNG",
-    link: "https://uzair-khane.github.io/website-for-JYM/",
-  },
+ 
+ 
   {
     title: "Website Repaire and Maintainance Services UI",
     description:
@@ -86,13 +133,7 @@ const projects = [
     image: "/repair.PNG",
     link: "https://uzair-khane.github.io/repaire-and-maintance-services/",
   },
-  {
-    title: "HRDN Official Website",
-    description:
-      "Collaborated with a team to design and develop the official website for HRDN.",
-    image: "/HRDN.PNG",
-    link: "https://hrdn.net/",
-  },
+
 ];
 </script>
 
