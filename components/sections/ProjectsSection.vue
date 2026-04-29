@@ -74,7 +74,7 @@ const projects = [
     title: "Password Generator",
     description:
       "Created a modern UI tool that generates strong passwords. Built with JavaScript.",
-    image: "/password.PNG",
+    image: "/Password.PNG",
     link: "https://uzair-khane.github.io/password-genrater/",
   },
   {
@@ -95,7 +95,7 @@ const projects = [
   {
     title: "Website Best Jewllery Collection UI",
     description: "Developed a responsive website for best Jewllery Collection ",
-    image: "/Bestjwellarycollection.PNG",
+    image: "/BestJwellarycollection.PNG",
     link: "https://uzair-khane.github.io/Healet/",
   },
   {
